@@ -5,19 +5,22 @@
 
 const parent = document.getElementById("product-list");
 const storedData = JSON.parse(window.localStorage.getItem('data'));
-console.log(storedData);
 
 class ProductItem extends HTMLElement {
   constructor(element) {
     super();
 
-    parent.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: 'open' });
     let item = document.createElement('li');
     item.classList.add("product");
     item.id = element.id;
+
+
     let title = element.title;
+
     let price = element.price;
     let imgSrc = element.image;
+    console.log(imgSrc);
     let imgAlt = element.title;
     // <li class="product">
     //     <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg" alt="Fjallraven - Foldstack No. 1 Backpack, Fits 15 Laptops" width=200>
