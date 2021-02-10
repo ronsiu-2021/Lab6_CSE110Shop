@@ -9,4 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
     })
     .catch(err => console.log(err));
 });
+const storedData = JSON.parse(window.localStorage.getItem('data'));
+
+storedData.forEach(element => { new ProductItem(element) });
 

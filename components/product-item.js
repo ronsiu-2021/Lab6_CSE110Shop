@@ -1,10 +1,5 @@
 // product-item.js
-
-
-
-
 const parent = document.getElementById("product-list");
-const storedData = JSON.parse(window.localStorage.getItem('data'));
 
 class ProductItem extends HTMLElement {
   constructor(element) {
@@ -22,22 +17,23 @@ class ProductItem extends HTMLElement {
     let imgSrc = element.image;
     console.log(imgSrc);
     let imgAlt = element.title;
-    // <li class="product">
-    //     <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg" alt="Fjallraven - Foldstack No. 1 Backpack, Fits 15 Laptops" width=200>
-    //     <p class="title">Fjallraven - Foldstack No. 1 Backpack, Fits 15 Laptops</p>
-    //     <p class="price">$109.95</p>
-    //     <button onclick="alert('Added to Cart!')">Add to Cart</button>
+    //<product-item>
+      // <li class="product">
+      //     <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg" alt="Fjallraven - Foldstack No. 1 Backpack, Fits 15 Laptops" width=200>
+      //     <p class="title">Fjallraven - Foldstack No. 1 Backpack, Fits 15 Laptops</p>
+      //     <p class="price">$109.95</p>
+      //     <button onclick="alert('Added to Cart!')">Add to Cart</button>
     // </li>
+    //</product-item>
     const img = '<img src=' + imgSrc + 'alt=' + imgAlt + 'width=200>';
     const firstP = ' <p class="title">' + title + '</p>'
     const secondP = ' <p class="price">' + price + '</p>'
     const button = '<button onclick="alert("Added to Cart!")">Add to Cart</button>'
     item.innerHTML = (img + firstP + secondP + button);
     parent.appendChild(item);
+    //attaching html to shadow not parent
   };
 }
 
 customElements.define('product-item', ProductItem);
-
-storedData.forEach(element => { new ProductItem(element) });
 
