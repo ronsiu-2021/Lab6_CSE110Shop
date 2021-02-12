@@ -1,37 +1,110 @@
 // product-item.js
-const parent = document.getElementById("product-list");
-
 class ProductItem extends HTMLElement {
   constructor(element) {
     super();
-
-    this.attachShadow({ mode: 'open' });
-    let item = document.createElement('li');
-    item.classList.add("product");
-    item.id = element.id;
-
-
-    let title = element.title;
-
-    let price = element.price;
-    let imgSrc = element.image;
-    console.log(imgSrc);
-    let imgAlt = element.title;
-    //<product-item>
-      // <li class="product">
-      //     <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg" alt="Fjallraven - Foldstack No. 1 Backpack, Fits 15 Laptops" width=200>
-      //     <p class="title">Fjallraven - Foldstack No. 1 Backpack, Fits 15 Laptops</p>
-      //     <p class="price">$109.95</p>
-      //     <button onclick="alert('Added to Cart!')">Add to Cart</button>
-    // </li>
-    //</product-item>
-    const img = '<img src=' + imgSrc + 'alt=' + imgAlt + 'width=200>';
-    const firstP = ' <p class="title">' + title + '</p>'
-    const secondP = ' <p class="price">' + price + '</p>'
-    const button = '<button onclick="alert("Added to Cart!")">Add to Cart</button>'
-    item.innerHTML = (img + firstP + secondP + button);
-    parent.appendChild(item);
     //attaching html to shadow not parent
+    let shadow = this.attachShadow({ mode: 'open' });
+    const item = document.createElement('li');
+    item.setAttribute('class', 'product');
+    item.setAttribute('id', element.id);
+
+    const img = document.createElement('img');
+    img.src = element.image;
+    img.alt = element.title;
+    img.setAttribute('width', 200);
+
+    const firstP = document.createElement('p');
+    firstP.setAttribute('class', 'title');
+    firstP.textContent = element.title;
+
+    const secondP = document.createElement('p');
+    secondP.setAttribute('class', 'price');
+    secondP.textContent = element.price;
+
+    const button = document.createElement('button');
+    // button.setAttribute('onclick', 'alert("Added to Cart!")');
+    button.setAttribute('onclick', 'addItem (event)');
+    button.textContent = 'Add to Cart';
+    if (storedCart !== null) {
+      storedCart.forEach(oldItem => {
+        if (oldItem == element.id) {
+          button.textContent = 'Remove from Cart';
+        }
+      });
+    }
+
+    item.appendChild(img, firstP, secondP, button);
+    item.appendChild(firstP);
+    item.appendChild(secondP);
+    item.appendChild(button);
+
+    let style = document.createElement('style');
+    style.textContent = `
+    .price {
+      color: green;
+      font-size: 1.8em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .product {
+      align-items: center;
+      background-color: white;
+      border-radius: 5px;
+      display: grid;
+      grid-template-areas:
+        "image"
+        "title"
+        "price"
+        "add";
+      grid-template-rows: 67% 11% 11% 11%;
+      height: 450px;
+      filter: drop-shadow(0px 0px 6px rgb(0, 0, 0, 0.2));
+      margin: 0 30px 30px 0;
+      padding: 10px 20px;
+      width: 200px;
+    }
+
+    .product > button {
+      background-color: rgb(255, 208, 0);
+      border: none;
+      border-radius: 5px;
+      color: black;
+      justify-self: center;
+      max-height: 35px;
+      padding: 8px 20px;
+      transition: 0.1s ease all;
+    }
+
+    .product > button:hover {
+      background-color: rgb(255, 166, 0);
+      cursor: pointer;
+      transition: 0.1s ease all;
+    }
+
+    .product > img {
+      align-self: center;
+      justify-self: center;
+      width: 100%;
+    }
+
+    .title {
+      font-size: 1.1em;
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .title:hover {
+      font-size: 1.1em;
+      margin: 0;
+      white-space: wrap;
+      overflow: auto;
+      text-overflow: unset;
+    }`;
+    shadow.appendChild(style);
+    shadow.appendChild(item);
   };
 }
 
